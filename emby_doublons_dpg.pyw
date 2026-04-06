@@ -25,6 +25,115 @@ def ui(fn):
     """Poster une lambda à exécuter dans le thread principal."""
     _ui_queue.put(fn)
 
+
+# ======
+#  LANGUES
+# ======
+LANGS = {
+    "fr": {
+        "connect":"Connecter","scan":"Scanner","save":"Sauvegarder",
+        "load":"Charger scan","export":"Exporter","reset_ign":"Reinitialiser",
+        "all_check":"Tout cocher","all_uncheck":"Tout decocher",
+        "open_all":"Ouvrir tout","compare":"Comparer","ignore":"Ignorer",
+        "play":"Lire","folder_btn":"Dossier","close":"Fermer",
+        "url_lbl":"URL","apikey_lbl":"Cle API","userid_lbl":"User ID",
+        "userid_hint":"optionnel","prefix_lbl":"Prefixe",
+        "player_lbl":"Lecteur video","player_hint":"C:\\...\\vlc.exe",
+        "filter_lbl":"Filtre :","filter_hint":"Titre...","sort_lbl":"Trier :",
+        "threshold_lbl":"Seuil min :","ignored_lbl":"Ignores :","reset_lbl":"Reinitialiser",
+        "sub":"- lecture seule (DirectX 11)",
+        "criteria_hdr":"Criteres - versions intentionnelles (coche = ignorer ce type de doublon)",
+        "cr_resolution":"Resolution differente (4K/HD/SD)",
+        "cr_hdr":"HDR vs SDR","cr_av1":"Codec AV1",
+        "cr_3d":"Film 3D / SBS / MVC","cr_remaster":"Remastered",
+        "cr_cut":"Version longue / Extended / Director's Cut",
+        "cr_bonus":"Bonus / Extras / Featurette",
+        "col_file":"Fichier","col_qual":"Qualite","col_folder":"Dossier NAS",
+        "col_dur":"Duree","col_size":"Taille","col_actions":"Actions",
+        "stat_groups":"groupes","stat_files":"fichiers",
+        "stat_recover":"recuperable","stat_intent":"intentionnels","stat_ign":"ignores",
+        "sec_dupes":"VRAIS DOUBLONS","sec_intent":"VERSIONS INTENTIONNELLES",
+        "no_dupes":"Aucun doublon detecte.","no_real":"Aucun vrai doublon.",
+        "sort_az":"Titre A>Z","sort_za":"Titre Z>A","sort_sz":"Taille",
+        "sort_cd":"Confiance v","sort_ca":"Confiance ^",
+        "libs_hint":"Cliquez sur Connecter pour charger les mediatheques.",
+        "scan_win":"Scan en cours","lang_btn":"EN",
+        "tip_player":"Chemin vers votre lecteur video (VLC, MPC-HC...).\nModification prise en compte IMMEDIATEMENT sans relancer le script.",
+        "tip_browse":"Parcourir pour choisir le lecteur video.",
+        "tip_open_all":"Ouvre tous les fichiers du groupe simultanement.\n\nATTENTION : votre lecteur video doit supporter plusieurs instances simultanees.\nVLC : Preferences > Interface > decocher une seule instance.\nMPC-HC : Options > Lecteur > Permettre plusieurs instances.",
+        "tip_compare":"Affiche les metadonnees des fichiers cote a cote\n(resolution, codec, bitrate, pistes audio...)\nLes differences sont surlignees en jaune.",
+        "tip_ignore":"Marque ce groupe comme faux positif.\nIl n apparaitra plus dans les resultats.\nRecuperez-le via Reinitialiser les ignores.",
+        "tip_play":"Ouvre ce fichier avec le lecteur video configure.",
+        "tip_folder":"Ouvre l explorateur Windows sur le dossier de ce fichier.",
+        "tip_score":"Masque les groupes dont le score est inferieur a ce seuil.\n\nIMDB=100% TMDB=85% Titre=60% Similarite=40%",
+        "tip_connect":"Verifie la connexion au serveur Emby et charge les mediatheques.\n\nIMPORTANT : si vous avez supprime des doublons manuellement,\nrafraichissez d'abord les mediatheques dans Emby avant de rescanner\n(Tableau de bord > Mediatheques > Analyser les mediatheques),\nsinon les fichiers supprimes apparaitront encore dans les resultats.",
+        "tip_cr_resolution":"Coche = 4K et 1080p du meme film ne sont PAS des doublons.",
+        "tip_cr_hdr":"Coche = version HDR et SDR ne sont PAS des doublons.",
+        "tip_cr_av1":"Coche = fichier AV1 et H264/HEVC ne sont PAS des doublons.",
+        "tip_cr_3d":"Coche = version 3D/SBS et version 2D ne sont PAS des doublons.",
+        "tip_cr_remaster":"Coche = Remastered et original ne sont PAS des doublons.",
+        "tip_cr_cut":"Coche = Extended, Director's Cut, Version Longue etc. ne sont PAS des doublons.",
+        "tip_cr_bonus":"Coche = fichier Bonus/Extras/Featurette ne sont PAS des doublons.",
+        "tip_scan":"Lance le scan des mediatheques selectionnees.\nUtilisez Connecter d'abord pour choisir les mediatheques,\nou Charger scan pour reafficher un scan precedent sans reconnecter.",
+        "tip_save":"Sauvegarde les resultats du scan dans un fichier JSON local.",
+        "tip_load":"Recharge les resultats du dernier scan sans reconnecter Emby.\nFonctionne hors ligne.",
+        "tip_export":"Exporte le rapport des doublons en HTML ou CSV.",
+    },
+    "en": {
+        "connect":"Connect","scan":"Scan","save":"Save",
+        "load":"Load scan","export":"Export","reset_ign":"Reset",
+        "all_check":"Check all","all_uncheck":"Uncheck all",
+        "open_all":"Open all","compare":"Compare","ignore":"Ignore",
+        "play":"Play","folder_btn":"Folder","close":"Close",
+        "url_lbl":"URL","apikey_lbl":"API Key","userid_lbl":"User ID",
+        "userid_hint":"optional","prefix_lbl":"Prefix",
+        "player_lbl":"Video player","player_hint":"C:\\...\\vlc.exe",
+        "filter_lbl":"Filter:","filter_hint":"Title...","sort_lbl":"Sort:",
+        "threshold_lbl":"Min score:","ignored_lbl":"Ignored:","reset_lbl":"Reset",
+        "sub":"- read only (DirectX 11)",
+        "criteria_hdr":"Criteria - intentional versions (check = ignore this duplicate type)",
+        "cr_resolution":"Different resolution (4K/HD/SD)",
+        "cr_hdr":"HDR vs SDR","cr_av1":"AV1 codec",
+        "cr_3d":"3D / SBS / MVC film","cr_remaster":"Remastered",
+        "cr_cut":"Long version / Extended / Director's Cut",
+        "cr_bonus":"Bonus / Extras / Featurette",
+        "col_file":"File","col_qual":"Quality","col_folder":"NAS Folder",
+        "col_dur":"Duration","col_size":"Size","col_actions":"Actions",
+        "stat_groups":"groups","stat_files":"files",
+        "stat_recover":"recoverable","stat_intent":"intentional","stat_ign":"ignored",
+        "sec_dupes":"TRUE DUPLICATES","sec_intent":"INTENTIONAL VERSIONS",
+        "no_dupes":"No duplicates found.","no_real":"No true duplicates.",
+        "sort_az":"Title A>Z","sort_za":"Title Z>A","sort_sz":"Size",
+        "sort_cd":"Confidence v","sort_ca":"Confidence ^",
+        "libs_hint":"Click Connect to load libraries.",
+        "scan_win":"Scanning...","lang_btn":"FR",
+        "tip_player":"Path to your video player (VLC, MPC-HC...).\nChanges take effect IMMEDIATELY without restarting.",
+        "tip_browse":"Browse to choose your video player.",
+        "tip_open_all":"Opens all files simultaneously.\n\nWARNING: your video player must support multiple instances.\nVLC: Preferences > Interface > uncheck Single instance.\nMPC-HC: Options > Player > Allow multiple instances.",
+        "tip_compare":"Shows file metadata side by side\n(resolution, codec, bitrate, audio tracks...)\nDifferences highlighted in yellow.",
+        "tip_ignore":"Mark this group as a false positive.\nIt will no longer appear in results.\nRestore via Reset ignored groups.",
+        "tip_play":"Open this file with the configured video player.",
+        "tip_folder":"Open Windows Explorer on this file folder.",
+        "tip_score":"Hides groups whose score is below this threshold.\n\nIMDB=100% TMDB=85% Title=60% Similarity=40%",
+        "tip_connect":"Checks Emby server connection and loads libraries.\n\nIMPORTANT: if you manually deleted duplicates,\nrefresh your libraries in Emby before rescanning\n(Dashboard > Libraries > Scan libraries),\notherwise deleted files will still appear in results.",
+        "tip_cr_resolution":"Checked = 4K and 1080p of the same film are NOT duplicates.",
+        "tip_cr_hdr":"Checked = HDR and SDR versions are NOT duplicates.",
+        "tip_cr_av1":"Checked = AV1 and H264/HEVC files are NOT duplicates.",
+        "tip_cr_3d":"Checked = 3D/SBS and 2D versions are NOT duplicates.",
+        "tip_cr_remaster":"Checked = Remastered and original are NOT duplicates.",
+        "tip_cr_cut":"Checked = Extended, Director's Cut, Long version etc. are NOT duplicates.",
+        "tip_cr_bonus":"Checked = Bonus/Extras/Featurette files are NOT duplicates.",
+        "tip_scan":"Starts scanning the selected libraries.\nUse Connect first to choose libraries,\nor Load scan to display a previous scan without reconnecting.",
+        "tip_save":"Saves scan results to a local JSON file.",
+        "tip_load":"Reloads the last scan without reconnecting to Emby.\nWorks offline.",
+        "tip_export":"Exports the duplicate report as HTML or CSV.",
+    }
+}
+
+def t(key):
+    """Retourne la traduction courante pour la cle donnee."""
+    return LANGS[G.get("lang","fr")].get(key, key)
+
 # ══════════════════════════════════════════════════════════════
 #  FICHIERS PERSISTANTS
 # ══════════════════════════════════════════════════════════════
@@ -331,7 +440,9 @@ def compute_stats(dupes):
     ng, nf, gain_min, gain_max = 0, 0, 0, 0
     for items in dupes.values():
         ng += 1
-        sizes = sorted([get_api_size(it) for it in items], reverse=True)
+        # Utiliser size_bytes des métadonnées, fallback sur Size API
+        sizes = sorted([get_rich_metadata(it)["size_bytes"] or get_api_size(it)
+                        for it in items], reverse=True)
         nf += len(items)
         if len(sizes) > 1:
             gain_min += sizes[-1]          # on supprime seulement le plus petit
@@ -375,7 +486,9 @@ def export_html(dupes, multiqual, fp, prefix, unc):
     # Top 10 doublons par espace gaspillé
     top10 = []
     for key, items in dupes.items():
-        sizes = sorted([get_api_size(it) for it in items], reverse=True)
+        # Utiliser size_bytes des métadonnées, fallback sur Size API
+        sizes = sorted([get_rich_metadata(it)["size_bytes"] or get_api_size(it)
+                        for it in items], reverse=True)
         wasted = sum(sizes[1:]) if len(sizes)>1 else 0
         if wasted > 0:
             first = items[0]
@@ -656,7 +769,7 @@ def open_folder(path):
     try:
         if sys.platform == "win32":
             # /select, et le chemin DOIVENT etre colles en un seul argument
-            subprocess.Popen(["explorer", "/select,", os.path.normpath(path)])
+            subprocess.Popen(["explorer", f"/select,{path}"])
         else:
             subprocess.Popen(["xdg-open", str(Path(path).parent)])
     except Exception as e:
@@ -665,10 +778,24 @@ def open_folder(path):
             f"Chemin tente :\n{p}\n\nErreur : {e}"))
 
 
+# Registre des tooltips traduisibles : [(text_tag, lang_key, wrap), ...]
+_TIPS_REGISTRY = []
+_tip_counter = 0
+
 def tip(text, wrap=320):
-    """Ajoute un tooltip sur le dernier widget créé."""
+    """Tooltip statique (texte fixe, bilingue direct dans la chaine)."""
     with dpg.tooltip(dpg.last_item()):
         dpg.add_text(text, wrap=wrap)
+
+def tip_t(lang_key, wrap=320):
+    """Tooltip traduisible — tague le texte et l'enregistre pour apply_lang()."""
+    global _tip_counter
+    _tip_counter += 1
+    txt_tag = f"_tip_txt_{_tip_counter}"
+    with dpg.tooltip(dpg.last_item()):
+        dpg.add_text(t(lang_key), tag=txt_tag, wrap=wrap)
+    _TIPS_REGISTRY.append((txt_tag, lang_key, wrap))
+
 
 # ══════════════════════════════════════════════════════════════
 #  ÉTAT GLOBAL
@@ -679,7 +806,7 @@ G = {
     "nas_prefix": CFG["emby"].get("nas_prefix","/volume1"),
     "nas_unc":    CFG["emby"].get("nas_unc",""),
     "player":     CFG["emby"].get("player",""),
-    "filter":"",  "sort":"title_asc",  "min_score": 0,
+    "filter":"",  "sort":"title_asc",  "min_score": 0,  "lang":"fr",
     # Critères d'exclusion (True = actif = ce critère rend le groupe intentionnel)
     "criteria": {"resolution":True,"hdr":True,"av1":True,
                  "3d":True,"remaster":True,"cut":True,"bonus":True},
@@ -761,11 +888,11 @@ def render_results():
     # Stats
     _,_,gain_min,gain_max=compute_stats(d)
     with dpg.group(parent="results_area",horizontal=True):
-        for val,lbl,col in [(str(ng),"groupes",(233,69,96)),
-                             (str(nf),"fichiers",(230,126,34)),
-                             (f"{fmt_size(gain_min)} ~ {fmt_size(gain_max)}","recuperable",(46,204,113)),
-                             (str(nq),"intentionnels",(136,136,170)),
-                             (str(ign),"ignores",(100,100,120))]:
+        for val,lbl,col in [(str(ng),t("stat_groups"),(233,69,96)),
+                             (str(nf),t("stat_files"),(230,126,34)),
+                             (f"{fmt_size(gain_min)} ~ {fmt_size(gain_max)}",t("stat_recover"),(46,204,113)),
+                             (str(nq),t("stat_intent"),(136,136,170)),
+                             (str(ign),t("stat_ign"),(100,100,120))]:
             with dpg.group():
                 dpg.add_text(val,color=col)
                 dpg.add_text(lbl,color=(136,136,170))
@@ -774,16 +901,16 @@ def render_results():
     dpg.add_spacer(height=6,parent="results_area")
 
     if d:
-        dpg.add_text(f"  VRAIS DOUBLONS  -  {ng} groupe(s)  -  {nf} fichiers",
+        dpg.add_text(f"  {t('sec_dupes')}  -  {ng} {t('stat_groups')}  -  {nf} {t('stat_files')}",
                      parent="results_area",color=(233,69,96))
         dpg.add_spacer(height=4,parent="results_area")
         _render_table(d,False)
     else:
-        dpg.add_text("Aucun vrai doublon.",parent="results_area",color=(46,204,113))
+        dpg.add_text(t("no_real"),parent="results_area",color=(46,204,113))
 
     if m:
         dpg.add_spacer(height=14,parent="results_area")
-        dpg.add_text(f"  VERSIONS INTENTIONNELLES  -  {nq} groupe(s)",
+        dpg.add_text(f"  {t('sec_intent')}  -  {nq} {t('stat_groups')}",
                      parent="results_area",color=(136,136,170))
         dpg.add_spacer(height=4,parent="results_area")
         _render_table(m,True)
@@ -829,7 +956,7 @@ def _render_table(groups, is_mq):
                 dpg.add_spacer(width=20)
                 dpg.add_text(f"[{sl} {sc}%]", color=sc_col)
                 dpg.add_spacer(width=10)
-                dpg.add_button(label="Ouvrir tout", width=80,
+                dpg.add_button(label=t("open_all"), width=80,
                     user_data=all_wp,
                     callback=lambda s,a,u: [open_file(p,get_player()) for p in u])
                 tip("Ouvre tous les fichiers du groupe simultanement.\n\n"
@@ -837,11 +964,11 @@ def _render_table(groups, is_mq):
                     "plusieurs instances simultanées (sessions multiples).\n"
                     "VLC : Preferences > Interface > decocher 'Une seule instance'.\n"
                     "MPC-HC : Options > Lecteur > 'Permettre plusieurs instances'.", wrap=360)
-                dpg.add_button(label="Comparer", width=70,
+                dpg.add_button(label=t("compare"), width=70,
                     user_data=items,
                     callback=lambda s,a,u: compare_popup(u))
                 tip("Affiche les metadonnees des fichiers cote a cote\n(resolution, codec, bitrate, pistes audio...)\nLes differences sont surlignees en jaune.")
-                dpg.add_button(label="Ignorer", width=60,
+                dpg.add_button(label=t("ignore"), width=60,
                     user_data=(key,title),
                     callback=lambda s,a,u: do_ignore(u[0],u[1]))
                 tip("Marque ce groupe comme faux positif.\nIl n'apparaitra plus dans les resultats.\nRecuperez-le via 'Reinitialiser' les ignores.")
@@ -853,17 +980,20 @@ def _render_table(groups, is_mq):
                            borders_innerH=True, borders_outerH=True,
                            borders_innerV=True, borders_outerV=True,
                            policy=dpg.mvTable_SizingStretchProp):
-                dpg.add_table_column(label="Fichier",    width_stretch=True, init_width_or_weight=0.34)
-                dpg.add_table_column(label="Qualité",    width_fixed=True,   init_width_or_weight=130)
-                dpg.add_table_column(label="Dossier NAS",width_stretch=True, init_width_or_weight=0.40)
-                dpg.add_table_column(label="Taille",     width_fixed=True,   init_width_or_weight=68)
-                dpg.add_table_column(label="Actions",    width_fixed=True,   init_width_or_weight=115)
+                dpg.add_table_column(label=t("col_file"),   width_stretch=True, init_width_or_weight=0.32)
+                dpg.add_table_column(label=t("col_qual"),   width_fixed=True,   init_width_or_weight=125)
+                dpg.add_table_column(label=t("col_folder"), width_stretch=True, init_width_or_weight=0.38)
+                dpg.add_table_column(label=t("col_dur"),    width_fixed=True,   init_width_or_weight=70)
+                dpg.add_table_column(label=t("col_size"),   width_fixed=True,   init_width_or_weight=68)
+                dpg.add_table_column(label=t("col_actions"),width_fixed=True,   init_width_or_weight=115)
 
                 for item in items:
                     sig=get_quality_signature(item)
                     qual=(f"{sig['res_label']} {sig['codec_raw']}"
                           + (" HDR" if sig["hdr"] else ""))
-                    sz=fmt_size(get_api_size(item))
+                    md  = get_rich_metadata(item)
+                    sz  = fmt_size(md["size_bytes"]) if md["size_bytes"] else fmt_size(get_api_size(item))
+                    dur = fmt_duration(md["duration_s"])
                     for path in get_all_sources(item):
                         wp=to_win(path,prefix,unc) or path
                         fname=Path(path).name if path else "—"
@@ -875,13 +1005,14 @@ def _render_table(groups, is_mq):
                                 callback=lambda s,a,u: open_file(u[0],u[1]))
                             dpg.add_text(qual, color=(170,221,255))
                             dpg.add_text(fd)
+                            dpg.add_text(dur, color=(180,180,130))
                             dpg.add_text(sz)
                             with dpg.group(horizontal=True):
-                                dpg.add_button(label="Lire", width=40,
+                                dpg.add_button(label=t("play"), width=40,
                                     user_data=wp,
                                     callback=lambda s,a,u: open_file(u,get_player()))
                                 tip("Ouvre ce fichier avec le lecteur video configure.")
-                                dpg.add_button(label="Dossier", width=60,
+                                dpg.add_button(label=t("folder_btn"), width=60,
                                     user_data=wp,
                                     callback=lambda s,a,u: open_folder(u))
                                 tip("Ouvre l'explorateur Windows sur le dossier de ce fichier.")
@@ -962,6 +1093,61 @@ def compare_popup(items):
 # ══════════════════════════════════════════════════════════════
 #  ACTIONS
 # ══════════════════════════════════════════════════════════════
+
+def apply_lang():
+    """Met a jour tous les widgets statiques taggues avec la langue courante."""
+    L = LANGS[G["lang"]]
+    # Boutons principaux
+    for tag, key in [("btn_connect","connect"),("btn_scan","scan"),
+                     ("btn_save","save"),("btn_load","load"),
+                     ("btn_export","export"),("btn_reset_ign","reset_ign"),
+                     ("btn_lang","lang_btn")]:
+        try: dpg.configure_item(tag, label=L[key])
+        except: pass
+    # Labels texte
+    for tag, key in [("lbl_url","url_lbl"),("lbl_apikey","apikey_lbl"),
+                     ("lbl_uid","userid_lbl"),("lbl_prefix","prefix_lbl"),
+                     ("lbl_player","player_lbl"),("lbl_filter","filter_lbl"),
+                     ("lbl_sort","sort_lbl"),("lbl_thresh","threshold_lbl"),
+                     ("lbl_ign_txt","ignored_lbl"),("lbl_sub","sub")]:
+        try: dpg.configure_item(tag, default_value=L[key])
+        except: pass
+    # Hints champs texte
+    for tag, key in [("inp_uid","userid_hint"),("inp_filter","filter_hint"),
+                     ("inp_player","player_hint")]:
+        try: dpg.configure_item(tag, hint=L[key])
+        except: pass
+    # Combo tri
+    opts = (L["sort_az"],L["sort_za"],L["sort_sz"],L["sort_cd"],L["sort_ca"])
+    try:
+        dpg.configure_item("cb_sort", items=opts, default_value=opts[0])
+    except: pass
+    # Criteres checkboxes
+    for key in ["resolution","hdr","av1","3d","remaster","cut","bonus"]:
+        try: dpg.configure_item(f"chk_{key}", label=L[f"cr_{key}"])
+        except: pass
+    # Popup scan
+    try: dpg.configure_item("scan_popup", label=L["scan_win"])
+    except: pass
+    # Panel librairies hint
+    try:
+        kids = dpg.get_item_children("lib_panel", 1)
+        if kids and not G["libraries"]:
+            dpg.configure_item(kids[0], default_value=L["libs_hint"])
+    except: pass
+    # Mettre a jour tous les tooltips enregistres
+    for txt_tag, lang_key, wrap in _TIPS_REGISTRY:
+        try: dpg.configure_item(txt_tag, default_value=t(lang_key))
+        except: pass
+    # Reinitialiser render pour les textes dynamiques
+    if G["dupes"] or G["multiqual"]:
+        render_results()
+
+
+def toggle_lang():
+    G["lang"] = "en" if G["lang"] == "fr" else "fr"
+    apply_lang()
+
 def _set_criterion(key, val):
     G["criteria"][key] = val
 
@@ -988,9 +1174,15 @@ def on_score_threshold(s,v,u):
     _schedule_render()
 
 def on_sort(s,v,u):
-    G["sort"]={"Titre A>Z":"title_asc","Titre Z>A":"title_desc",
-               "Taille":"size","Confiance v":"conf_desc",
-               "Confiance ^":"conf_asc"}.get(v,"title_asc")
+    # Mapping multi-langue : toutes les valeurs possibles -> clé interne
+    _MAP = {
+        "Titre A>Z":"title_asc","Title A>Z":"title_asc",
+        "Titre Z>A":"title_desc","Title Z>A":"title_desc",
+        "Taille":"size","Size":"size",
+        "Confiance v":"conf_desc","Confidence v":"conf_desc",
+        "Confiance ^":"conf_asc","Confidence ^":"conf_asc",
+    }
+    G["sort"]=_MAP.get(v,"title_asc")
     render_results()
 
 def browse_player():
@@ -1006,16 +1198,20 @@ def browse_player():
     except: pass
 
 def do_export():
-    global _mid; _mid+=1; tag=f"_exp{_mid}"
-    with dpg.window(label="Exporter",tag=tag,modal=True,
-                    width=340,height=190,pos=[200,200],no_resize=True):
+    global _mid; _mid+=1
+    win_tag = f"_exp{_mid}"
+    rb_tag  = f"_rb{_mid}"   # tag UNIQUE pour eviter conflits entre ouvertures
+    with dpg.window(label="Exporter",tag=win_tag,modal=True,
+                    width=340,height=200,pos=[200,200],no_resize=True):
         dpg.add_text("Format :")
-        dpg.add_radio_button(("HTML (navigateur)","CSV (tableur)"),tag="exp_fmt_rb")
+        # DPG radio_button retourne un ENTIER (0=HTML, 1=CSV) — pas une chaine
+        dpg.add_radio_button(("HTML (rapport navigateur)","CSV (tableur)"),
+                             tag=rb_tag, default_value=0)
         dpg.add_separator()
-        def go():
-            fmt_str = dpg.get_value("exp_fmt_rb")   # retourne la chaîne choisie
-            dpg.delete_item(tag)
-            is_html = "HTML" in fmt_str
+        def go(wt=win_tag, rt=rb_tag):
+            fmt_int = dpg.get_value(rt)   # 0 = HTML, 1 = CSV
+            dpg.delete_item(wt)
+            is_html = (fmt_int == 0)
             ext     = "html" if is_html else "csv"
             ts      = time.strftime("%Y%m%d_%H%M")
             defname = f"emby_doublons_{ts}.{ext}"
@@ -1036,7 +1232,8 @@ def do_export():
                 else:
                     export_csv(G["dupes"],G["multiqual"],fp,prefix,unc)
                 modal_info("Export OK",f"Fichier:\n{fp}")
-            except Exception as e: modal_err("Erreur export",str(e))
+            except Exception as e:
+                modal_err("Erreur export", str(e))
         dpg.add_button(label="Exporter",width=-1,callback=lambda s,a,u:go())
 
 def do_save():
@@ -1094,7 +1291,7 @@ def do_connect():
             for lib in libs_raw:
                 lib_id   = lib.get("ItemId","") or lib.get("Id","")
                 lib_name = lib.get("Name","?")
-                lib_type = lib.get("CollectionType","")
+                lib_type = lib.get("CollectionType","") or ""
                 if lib_id:
                     libs.append({"id":lib_id,"name":lib_name,"type":lib_type})
 
@@ -1149,8 +1346,9 @@ def _rebuild_library_panel(libs):
                 batch = libs[i:i+COLS]
                 for lib in batch:
                     icon = {"movies":"Films","tvshows":"Series","music":"Musique",
-                            "books":"Livres","photos":"Photos"}.get(lib["type"],
-                            lib["type"] or "?")
+                            "books":"Livres","photos":"Photos",
+                            "boxsets":"","mixed":"","homevideos":"Videos"}.get(
+                            lib["type"], lib["type"] or "")
                     dpg.add_checkbox(
                         label=f"{lib['name']}  [{icon}]",
                         tag=f"chk_lib_{lib['id']}",
@@ -1236,7 +1434,7 @@ def start_scan():
                 G["dupes"]=d; G["multiqual"]=mq
                 dpg.set_value("scan_pb",1.0)
                 dpg.configure_item("scan_popup",show=False)
-                dpg.configure_item("btn_scan",enabled=True,label="Scanner")
+                dpg.configure_item("btn_scan",enabled=True,label=t("scan"))
                 dpg.configure_item("btn_save",enabled=True)
                 dpg.configure_item("lbl_scan_info",default_value=sm)
                 render_results()
@@ -1246,12 +1444,12 @@ def start_scan():
             msg="Cle API invalide (401)." if e.code==401 else f"HTTP {e.code}: {e.reason}"
             ui(lambda m=msg: (modal_err("Erreur API",m),
                 dpg.configure_item("scan_popup",show=False),
-                dpg.configure_item("btn_scan",enabled=True,label="Scanner")))
+                dpg.configure_item("btn_scan",enabled=True,label=t("scan"))))
         except Exception as e:
             msg=str(e)
             ui(lambda m=msg: (modal_err("Erreur scan",m),
                 dpg.configure_item("scan_popup",show=False),
-                dpg.configure_item("btn_scan",enabled=True,label="Scanner")))
+                dpg.configure_item("btn_scan",enabled=True,label=t("scan"))))
 
     threading.Thread(target=thread,daemon=True).start()
 
@@ -1303,32 +1501,36 @@ def build_ui():
     with dpg.window(tag="main_win",no_title_bar=True,no_move=True,
                     no_resize=True,no_scrollbar=True,no_scroll_with_mouse=True):
 
-        # Titre + copyright
+        # Titre + bouton langue + copyright
         with dpg.group(horizontal=True):
             dpg.add_text("Emby Duplicate Finder",color=(233,69,96))
-            dpg.add_text("- lecture seule (DirectX 11)",color=(136,136,170))
+            dpg.add_text("- lecture seule (DirectX 11)",tag="lbl_sub",color=(136,136,170))
             dpg.add_spacer(width=20)
             dpg.add_text("By Popov2026",color=(180,130,255))
             dpg.add_text("(c) 2026",color=(120,90,180))
+            dpg.add_spacer(width=20)
+            dpg.add_button(label="EN",tag="btn_lang",width=36,
+                callback=lambda s,a,u: toggle_lang())
+            tip("Basculer la langue / Switch language")
         dpg.add_separator()
 
         # Ligne 1 : connexion
         with dpg.group(horizontal=True):
-            dpg.add_text("URL")
+            dpg.add_text("URL",tag="lbl_url")
             dpg.add_input_text(tag="inp_url",default_value=CFG["emby"]["url"],width=210)
             dpg.add_spacer(width=6)
-            dpg.add_text("Cle API")
+            dpg.add_text("Cle API",tag="lbl_apikey")
             dpg.add_input_text(tag="inp_key",default_value=CFG["emby"]["api_key"],
                                password=True,width=230)
             dpg.add_spacer(width=6)
-            dpg.add_text("User ID")
+            dpg.add_text("User ID",tag="lbl_uid")
             dpg.add_input_text(tag="inp_uid",default_value=CFG["emby"].get("user_id",""),
                                width=110,hint="optionnel")
         dpg.add_spacer(height=3)
 
         # Ligne 2 : NAS + lecteur
         with dpg.group(horizontal=True):
-            dpg.add_text("Prefixe")
+            dpg.add_text("Prefixe",tag="lbl_prefix")
             dpg.add_input_text(tag="inp_prefix",
                                default_value=CFG["emby"].get("nas_prefix","/volume1"),width=110)
             dpg.add_text("->",color=(233,69,96))
@@ -1336,30 +1538,30 @@ def build_ui():
                                default_value=CFG["emby"].get("nas_unc",""),
                                width=200,hint=r"\\192.168.1.x")
             dpg.add_spacer(width=10)
-            dpg.add_text("Lecteur video")
+            dpg.add_text("Lecteur video",tag="lbl_player")
             dpg.add_input_text(tag="inp_player",
                                default_value=CFG["emby"].get("player",""),
                                width=200,hint="C:\\...\\vlc.exe")
-            tip("Chemin vers votre lecteur video (VLC, MPC-HC...).\nModification prise en compte IMMEDIATEMENT sans relancer le script.")
+            tip_t("tip_player")
             dpg.add_button(label="...",callback=browse_player,width=24)
-            tip("Parcourir pour choisir le lecteur video.")
+            tip_t("tip_browse")
         dpg.add_spacer(height=3)
 
         # Ligne 3 : boutons principaux
         with dpg.group(horizontal=True):
             dpg.add_button(label="Connecter",tag="btn_connect",
                            callback=lambda s,a,u:do_connect(),width=100)
-            tip("Verifie la connexion au serveur Emby\net charge la liste des mediatheques disponibles.\n\nIMPORTANT : si vous avez supprime des doublons manuellement,\nrafraichissez d'abord les mediatheques dans Emby avant de rescanner\n(Tableau de bord > Mediatheques > Analyser les mediatheques),\nsinon les fichiers supprimes apparaitront encore dans les resultats.", wrap=380)
+            tip_t("tip_connect", wrap=380)
             dpg.add_button(label="Scanner",tag="btn_scan",callback=start_scan,
                            width=100,enabled=False)
-            tip("Lance le scan des mediatheques selectionnees.\nUtilisez Connecter d'abord pour choisir les mediatheques,\nou Charger scan pour reafficher un scan precedent sans reconnecter.")
+            tip_t("tip_scan")
             dpg.add_button(label="Sauvegarder",tag="btn_save",callback=do_save,
                            width=110,enabled=False)
-            tip("Sauvegarde les resultats du scan dans un fichier JSON local.")
+            tip_t("tip_save")
             dpg.add_button(label="Charger scan",callback=do_load,width=110)
-            tip("Recharge les resultats du dernier scan sans reconnecter Emby.\nFonctionne hors ligne.")
+            tip_t("tip_load")
             dpg.add_button(label="Exporter",callback=do_export,width=90)
-            tip("Exporte le rapport des doublons en HTML ou CSV.")
+            tip_t("tip_export")
             dpg.add_spacer(width=10)
             dpg.add_text("",tag="lbl_scan_info",color=(136,136,170))
         dpg.add_spacer(height=4)
@@ -1385,52 +1587,44 @@ def build_ui():
                     ("bonus",     "Bonus / Extras / Featurette",               "bonus"),
                 ]
                 for tag_suffix, label, key in CRITERIA:
-                    _tips_map = {
-                        "resolution":"Coche = 4K et 1080p du meme film ne sont PAS des doublons.",
-                        "hdr":       "Coche = version HDR et SDR ne sont PAS des doublons.",
-                        "av1":       "Coche = fichier AV1 et H264/HEVC ne sont PAS des doublons.",
-                        "3d":        "Coche = version 3D/SBS et version 2D ne sont PAS des doublons.",
-                        "remaster":  "Coche = Remastered et original ne sont PAS des doublons.",
-                        "cut":       "Coche = Extended, Director's Cut, Version Longue etc. ne sont PAS des doublons.",
-                        "bonus":     "Coche = fichier Bonus/Extras/Featurette ne sont PAS des doublons.",
+                    _tip_key_map = {
+                        "resolution":"tip_cr_resolution",
+                        "hdr":"tip_cr_hdr","av1":"tip_cr_av1",
+                        "3d":"tip_cr_3d","remaster":"tip_cr_remaster",
+                        "cut":"tip_cr_cut","bonus":"tip_cr_bonus",
                     }
                     dpg.add_checkbox(
                         label=label, tag=f"chk_{tag_suffix}",
                         default_value=G["criteria"].get(key,True),
                         user_data=key,
                         callback=lambda s,v,u: _set_criterion(u,v))
-                    tip(_tips_map.get(key,""), wrap=280)
+                    tip_t(_tip_key_map.get(key,"tip_cr_resolution"), wrap=280)
                     dpg.add_spacer(width=14)
             dpg.add_spacer(height=3)
         dpg.add_spacer(height=3)
 
         # Ligne 6 : filtre + tri + seuil + ignorés
         with dpg.group(horizontal=True):
-            dpg.add_text("Filtre :")
+            dpg.add_text("Filtre :",tag="lbl_filter")
             dpg.add_input_text(tag="inp_filter",width=200,hint="Titre...",
                                callback=on_filter,on_enter=False)
             dpg.add_spacer(width=10)
-            dpg.add_text("Trier :")
+            dpg.add_text("Trier :",tag="lbl_sort")
             dpg.add_combo(("Titre A>Z","Titre Z>A","Taille","Confiance v","Confiance ^"),
                           tag="cb_sort",default_value="Titre A>Z",
                           callback=on_sort,width=140)
             dpg.add_spacer(width=14)
-            dpg.add_text("Seuil min :")
+            dpg.add_text("Seuil min :",tag="lbl_thresh")
             dpg.add_slider_int(tag="sld_score",default_value=0,min_value=0,max_value=100,
                                width=140,callback=on_score_threshold)
-            tip("Masque les groupes dont le score de confiance\nest inferieur a ce seuil.\n\n"
-                "IMDB = 100%  (certain)\n"
-                "TMDB = 85%   (probable)\n"
-                "Titre+annee = 60%  (possible)\n"
-                "Similarite = 40%  (incertain)\n\n"
-                "Ex: seuil 85 = affiche seulement IMDB et TMDB.", wrap=300)
+            tip_t("tip_score", wrap=300)
             dpg.add_text("0%",tag="lbl_score_val",color=(136,136,170))
             dpg.add_spacer(width=14)
-            dpg.add_text("Ignores :")
+            dpg.add_text("Ignores :",tag="lbl_ign_txt")
             dpg.add_text(f"{len(G['ignored'])} ignore(s)",
                          tag="lbl_ignored",color=(230,126,34))
             dpg.add_spacer(width=4)
-            dpg.add_button(label="Reinitialiser",callback=do_reset_ignored,width=100)
+            dpg.add_button(label="Reinitialiser",tag="btn_reset_ign",callback=do_reset_ignored,width=100)
 
         dpg.add_separator()
         dpg.add_child_window(tag="results_area",border=False,autosize_x=True,height=-1)
